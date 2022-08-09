@@ -1,0 +1,54 @@
+﻿@page "/ShoppingCart"
+
+@if (ShoppingCartItems == null)
+{
+	<h3>Loading Cart...</h3>
+}
+else
+{
+	<h3 class="mb-5">Shopping Cart</h3>
+	@if (ShoppingCartItems.Count > 0)
+	{
+		<div class="row mb-5">
+			<div class="col-md-9">
+				@foreach (var item in ShoppingCartItems)
+				{
+					<div class="row mb-4">
+						<div class="col-md-4">
+							<img src="@item.ProductImg" width="300" class="img-thumbnail">
+						</div>
+						<div class="col-md-8">
+							<h5>@item.ProductName</h5>
+							<span>Price: <b>@item.Price.ToString("C")</b></span>
+							<input @oninput="()=>Update_Inp(item.Id)" type="number" @bind="@item.Qty" />
+							<button data-itemId="@item.Id" class="btn btn-info btn-sm" style="display:none" @onclick="()=>UpdateCartItem(item.Id,item.Qty)">Update Quantity</button>
+							<div>
+								<button class="btn btn-danger sm" @onclick="()=>DeleteCartItem(item.Id)">Remove</button>
+							</div>
+						</div>
+					</div>
+
+				}
+			</div>
+			<div class="col-3">
+				<h5>Cart Summary</h5>
+				<div class="mt-2">
+					<div>
+						Total - (@TotalQty items) &nbsp; <b>@TotalPrice</b>
+					</div>
+					<a href="#" class="btn btn-success">
+						<span class="oi oi-credit-card"></span>&nbsp; Proceed to Checkout
+					</a>
+				</div>
+			</div>
+		</div>
+
+
+
+	}
+	else
+	{
+
+		<h4>There are currently no items in your Shopping Cart</h4>
+	}
+}
